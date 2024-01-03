@@ -6,62 +6,11 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 21:37:25 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/02 23:24:20 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/02 23:50:49 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	read_args(int argc, char **argv, t_data *data)
-{
-	data->number_of_philosophers = ft_strtol(argv[1]);
-	data->time_to_die = ft_strtol(argv[2]);
-	data->time_to_eat = ft_strtol(argv[3]);
-	data->time_to_sleep = ft_strtol(argv[4]);
-	if (argc == 6)
-		data->number_of_times_each_philosopher_must_eat = ft_strtol(argv[5]);
-	else
-		data->number_of_times_each_philosopher_must_eat = -1;
-}
-
-void	eat(t_philosopher	*philosopher)
-{
-	pthread_mutex_lock(philosopher->left_fork);
-	print_status(philosopher, "has taken a fork");
-	pthread_mutex_lock(philosopher->right_fork);
-	print_status(philosopher, "has taken a fork");
-	print_status(philosopher, "is eating");
-	philosopher->last_meal = get_time();
-	usleep(philosopher->data->time_to_eat * 1000); // 1 milliseconds = 1000 microseconds
-	philosopher->meals++;
-	pthread_mutex_unlock(philosopher->left_fork);
-	pthread_mutex_unlock(philosopher->right_fork);
-}
-
-void	snooze(t_philosopher	*philosopher)
-{
-	print_status(philosopher, "is sleeping");
-	usleep(philosopher->data->time_to_sleep * 1000); // 1 milliseconds = 1000 microseconds
-}
-
-void	think(t_philosopher	*philosopher)
-{
-	print_status(philosopher, "is thinking");
-}
-
-void	*routine(void *arg)
-{
-	t_philosopher	*philosopher;
-	philosopher = (t_philosopher *) arg;
-	while (1)
-	{
-		eat(philosopher);
-		snooze(philosopher);
-		think(philosopher);
-	}
-	return (NULL);
-}
-
 
 t_philosopher **init_philosophers(t_data *data)
 {
@@ -124,26 +73,6 @@ void	start_dinner(t_philosopher **philosophers, t_data *data)
 // 	}
 // }
 
-char	*check_args(int argc, char **argv)
-{
-	int		i;
-	long	nb;
-
-	if (argc > 6)
-		return(ft_strdup("Error: too many arguments"));
-	if (argc < 5)
-		return(ft_strdup("Error: too few arguments"));
-	i = 1;
-	while (i < argc)
-	{
-		nb = ft_strtol(argv[i]);
-		if (!ft_is_number(argv[i]) || nb < 0 || nb > INT_MAX)
-			return(ft_strdup("Error: arguments must be integer positive numbers"));
-		i++;
-	}
-	return (NULL);
-}
-
 void	free_philosophers(t_philosopher **philosophers)
 {
 	int	i;
@@ -161,30 +90,27 @@ void	free_philosophers(t_philosopher **philosophers)
 
 void	wait_philosophers(t_philosopher	**philosophers)
 {
-	// t_philosopher	**philosophers;
 	int				i;
 	t_data			*data;
-	long			now;
-	t_bool			full;
+	t_bool			all_philos_are_full;
 	
-	// philosophers = (t_philosopher **) arg;		
 	data = philosophers[0]->data;
 	while (1)
 	{
 		i = 0;
-		full = true;
+		all_philos_are_full = true;
 		while(i < data->number_of_philosophers)
 		{
-			now = get_time();
-			if (now - philosophers[i]->last_meal > data->time_to_die)
+			if (get_time() - philosophers[i]->last_meal > data->time_to_die)
 			{
 				print_status(philosophers[i], "died");
 				return ;
 			}
-			if (philosophers[i]->meals < data->number_of_times_each_philosopher_must_eat)
-				full = false;
+			if (philosophers[i]->meals < data->total_meals)
+				all_philos_are_full = false;
+			i++;
 		}
-		if (full)
+		if (data->total_meals != -1 && all_philos_are_full)
 			return ;
 		usleep(1000);				
 	}
@@ -207,7 +133,6 @@ int	main(int argc, char **argv)
 	philosophers = init_philosophers(&data);
 	start_dinner(philosophers, &data);
 	wait_philosophers(philosophers);
-	// wait_philosophers(philosophers);
 	free_philosophers(philosophers);
 }
 	

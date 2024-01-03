@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 19:49:13 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/02 23:22:48 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/02 23:51:48 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_data
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				number_of_times_each_philosopher_must_eat;
+	int				total_meals;
 	long			start_time;
 	pthread_mutex_t	print;
 }	t_data ;
@@ -64,5 +64,10 @@ void	error(char *msg);
 long	get_time(void);
 long	get_timestamp(long start_time);
 void	print_status(t_philosopher *philosopher, char *status);
+// actions.c
+void	*routine(void *arg);
+// args.c
+char	*check_args(int argc, char **argv);
+void	read_args(int argc, char **argv, t_data *data);
 
 #endif
