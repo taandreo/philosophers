@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 21:37:25 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 00:10:31 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/03 22:03:39 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	read_args(argc, argv, &data);
+	if (data.number_of_philosophers == 0)
+		return (0);
 	philosophers = init_philosophers(&data);
 	start_dinner(philosophers, &data);
 	wait_philosophers(philosophers);

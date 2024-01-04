@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:27:43 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 00:09:13 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/03 00:15:25 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,4 @@ long	get_timestamp(long start_time)
 
 	current_time = get_time();
 	return (current_time - start_time);
-}
-
-void	print_status(t_philosopher *philosopher, char *status)
-{
-	pthread_mutex_lock(&philosopher->data->print);
-	printf("%ld %d %s\n", get_timestamp(philosopher->data->start_time),
-		philosopher->id, status);
-	pthread_mutex_unlock(&philosopher->data->print);
 }

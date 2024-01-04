@@ -6,11 +6,19 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 23:45:41 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 00:10:42 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/03 22:21:17 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	print_status(t_philosopher *philosopher, char *status)
+{
+	pthread_mutex_lock(&philosopher->data->print);
+	printf("%ld %d %s\n", get_timestamp(philosopher->data->start_time),
+		philosopher->id, status);
+	pthread_mutex_unlock(&philosopher->data->print);
+}
 
 void	eat(t_philosopher	*philosopher)
 {
