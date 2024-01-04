@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 20:50:03 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 00:10:38 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:14:08 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void	read_args(int argc, char **argv, t_data *data)
 		data->total_meals = ft_strtol(argv[5]);
 	else
 		data->total_meals = -1;
+	data->stop = false;
 }

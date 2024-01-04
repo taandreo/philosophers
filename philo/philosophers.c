@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 21:37:25 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 22:03:39 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:17:37 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,22 @@ void	start_dinner(t_philosopher **philosophers, t_data *data)
 			usleep(300);
 		philosophers[i]->last_meal = data->start_time;
 		pthread_create(&philosophers[i]->thread, NULL, &routine, philosophers[i]);
-		pthread_detach(philosophers[i]->thread);
+		// pthread_detach(philosophers[i]->thread);
 		i++;
 	}
 }
 
-// void	wait_philosophers(t_philosopher **philosophers)
-// {
-// 	int	i;
+void	wait_philosophers(t_philosopher **philosophers)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (philosophers[i])
-// 	{
-// 		pthread_join(philosophers[i]->thread, NULL);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (philosophers[i])
+	{
+		pthread_join(philosophers[i]->thread, NULL);
+		i++;
+	}
+}
 
 void	free_philosophers(t_philosopher **philosophers)
 {
@@ -88,7 +88,7 @@ void	free_philosophers(t_philosopher **philosophers)
 	free(philosophers);
 }
 
-void	wait_philosophers(t_philosopher	**philosophers)
+void	death_routine(t_philosopher	**philosophers)
 {
 	int				i;
 	t_data			*data;
@@ -104,6 +104,7 @@ void	wait_philosophers(t_philosopher	**philosophers)
 			if (get_time() - philosophers[i]->last_meal > data->time_to_die)
 			{
 				print_status(philosophers[i], "died");
+				data->stop = true;
 				return ;
 			}
 			if (philosophers[i]->meals < data->total_meals)
@@ -111,8 +112,11 @@ void	wait_philosophers(t_philosopher	**philosophers)
 			i++;
 		}
 		if (data->total_meals != -1 && all_philos_are_full)
+		{
+			data->stop = true;
 			return ;
-		usleep(1000);				
+		}
+		usleep(1000);		
 	}
 }
 
@@ -134,6 +138,7 @@ int	main(int argc, char **argv)
 		return (0);
 	philosophers = init_philosophers(&data);
 	start_dinner(philosophers, &data);
+	death_routine(philosophers);
 	wait_philosophers(philosophers);
 	free_philosophers(philosophers);
 }

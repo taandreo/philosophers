@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 19:49:13 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 22:05:42 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:14:16 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				total_meals;
+	t_bool			stop;
 	long			start_time;
 	pthread_mutex_t	print;
 }	t_data ;

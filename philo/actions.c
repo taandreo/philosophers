@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 23:45:41 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 22:21:17 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:13:44 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ void	*routine(void *arg)
 	while (1)
 	{
 		eat(philosopher);
+		if (philosopher->data->stop)
+			return (NULL);
 		snooze(philosopher);
+		if (philosopher->data->stop)
+			return (NULL);
 		think(philosopher);
 	}
 	return (NULL);
