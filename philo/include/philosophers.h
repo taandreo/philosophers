@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 19:49:13 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/04 03:14:16 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:31:24 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,9 @@ long	get_timestamp(long start_time);
 // actions.c
 void	*routine(void *arg);
 void	print_status(t_philosopher *philosopher, char *status);
-// args.c
+// args_and_free.c
 char	*check_args(int argc, char **argv);
 void	read_args(int argc, char **argv, t_data *data);
+void	free_philosophers(t_philosopher **philosophers);
 
 #endif

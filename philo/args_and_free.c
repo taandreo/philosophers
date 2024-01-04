@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   args_and_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 20:50:03 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/04 03:14:08 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:30:46 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,20 @@ void	read_args(int argc, char **argv, t_data *data)
 	else
 		data->total_meals = -1;
 	data->stop = false;
+}
+
+
+void	free_philosophers(t_philosopher **philosophers)
+{
+	int	i;
+
+	i = 0;
+	while (philosophers[i])
+	{
+		pthread_mutex_destroy(philosophers[i]->left_fork);
+		free(philosophers[i]->left_fork);
+		free(philosophers[i]);
+		i++;
+	}
+	free(philosophers);
 }

@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 15:23:20 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/03 00:10:24 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:23:45 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,29 +97,4 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	ft_strlcpy(dest, s, (len + 1));
 	return (dest);
-}
-
-void	*ft_calloc(size_t num, size_t size)
-{
-	size_t			i;
-	unsigned char	*p;
-
-	i = 0;
-	if (__SIZE_MAX__ / size < num)
-		return (NULL);
-	p = malloc(num * size);
-	if (!p)
-		return (NULL);
-	while (i < num * size)
-	{
-		p[i] = 0;
-		i++;
-	}
-	return ((void *) p);
-}
-
-void	error(char *msg)
-{
-	write(STDERR_FILENO, msg, ft_strlen(msg));
-	write(STDERR_FILENO, "\n", 1);
 }

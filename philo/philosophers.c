@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 21:37:25 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/04 03:17:37 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/04 03:30:37 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,6 @@ void	wait_philosophers(t_philosopher **philosophers)
 		pthread_join(philosophers[i]->thread, NULL);
 		i++;
 	}
-}
-
-void	free_philosophers(t_philosopher **philosophers)
-{
-	int	i;
-
-	i = 0;
-	while (philosophers[i])
-	{
-		pthread_mutex_destroy(philosophers[i]->left_fork);
-		free(philosophers[i]->left_fork);
-		free(philosophers[i]);
-		i++;
-	}
-	free(philosophers);
 }
 
 void	death_routine(t_philosopher	**philosophers)
