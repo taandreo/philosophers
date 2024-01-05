@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args_and_free.c                                    :+:      :+:    :+:   */
+/*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 20:50:03 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/04 03:30:46 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/05 02:26:37 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ char	*check_args(int argc, char **argv)
 	long	nb;
 
 	if (argc > 6)
-		return(ft_strdup("Error: too many arguments"));
+		return (ft_strdup("Error: too many arguments"));
 	if (argc < 5)
-		return(ft_strdup("Error: too few arguments"));
+		return (ft_strdup("Error: too few arguments"));
 	i = 1;
 	while (i < argc)
 	{
 		nb = ft_strtol(argv[i]);
 		if (!ft_is_number(argv[i]) || nb < 0 || nb > INT_MAX)
-			return(ft_strdup("Error: arguments must be integer positive numbers"));
+			return (ft_strdup("Error: arguments must be a integer positive"));
 		i++;
 	}
 	return (NULL);
@@ -34,7 +34,7 @@ char	*check_args(int argc, char **argv)
 
 void	read_args(int argc, char **argv, t_data *data)
 {
-	data->number_of_philosophers = ft_strtol(argv[1]);
+	data->nb_philos = ft_strtol(argv[1]);
 	data->time_to_die = ft_strtol(argv[2]);
 	data->time_to_eat = ft_strtol(argv[3]);
 	data->time_to_sleep = ft_strtol(argv[4]);
@@ -43,20 +43,4 @@ void	read_args(int argc, char **argv, t_data *data)
 	else
 		data->total_meals = -1;
 	data->stop = false;
-}
-
-
-void	free_philosophers(t_philosopher **philosophers)
-{
-	int	i;
-
-	i = 0;
-	while (philosophers[i])
-	{
-		pthread_mutex_destroy(philosophers[i]->left_fork);
-		free(philosophers[i]->left_fork);
-		free(philosophers[i]);
-		i++;
-	}
-	free(philosophers);
 }

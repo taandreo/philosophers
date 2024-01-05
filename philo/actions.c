@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 23:45:41 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/04 03:32:26 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/05 02:09:23 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	eat(t_philosopher	*philosopher)
 	print_status(philosopher, "has taken a fork");
 	print_status(philosopher, "is eating");
 	philosopher->last_meal = get_time();
-	usleep(philosopher->data->time_to_eat * 1000); // 1 milliseconds = 1000 microseconds
+	usleep(philosopher->data->time_to_eat * 1000);
 	philosopher->meals++;
 	pthread_mutex_unlock(philosopher->left_fork);
 	pthread_mutex_unlock(philosopher->right_fork);
@@ -37,7 +37,7 @@ void	eat(t_philosopher	*philosopher)
 void	snooze(t_philosopher	*philosopher)
 {
 	print_status(philosopher, "is sleeping");
-	usleep(philosopher->data->time_to_sleep * 1000); // 1 milliseconds = 1000 microseconds
+	usleep(philosopher->data->time_to_sleep * 1000);
 }
 
 void	think(t_philosopher	*philosopher)
@@ -48,6 +48,7 @@ void	think(t_philosopher	*philosopher)
 void	*routine(void *arg)
 {
 	t_philosopher	*philosopher;
+
 	philosopher = (t_philosopher *) arg;
 	while (1)
 	{
