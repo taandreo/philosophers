@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 19:49:13 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/05 02:25:44 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:21:35 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_data
 	t_bool			stop;
 	long			start_time;
 	pthread_mutex_t	print;
+	pthread_mutex_t	stop_mutex;
 }	t_data;
 
 typedef struct s_philosopher
