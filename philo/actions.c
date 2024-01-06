@@ -6,31 +6,35 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 23:45:41 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/06 19:09:44 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/06 20:03:08 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	get_forks(t_philosopher	*philosopher)
-{
-	if (philosopher->id != philosopher->data->nb_philos)
-	{
-		pthread_mutex_lock(philosopher->left_fork);
-		print_status(philosopher, "has taken a left fork");
-		pthread_mutex_lock(philosopher->right_fork);
-		print_status(philosopher, "has taken a fork");
-	} else {
-		pthread_mutex_lock(philosopher->right_fork);
-		print_status(philosopher, "has taken a right fork");
-		pthread_mutex_lock(philosopher->left_fork);
-		print_status(philosopher, "has taken a fork");
-	}
-}
+// void	get_forks(t_philosopher	*philosopher)
+// {
+// 	// if (philosopher->id != philosopher->data->nb_philos)
+// 	if (true)
+// 	{
+		
+// 	} else {
+// 		pthread_mutex_lock(philosopher->right_fork);
+// 		print_status(philosopher, "has taken a right fork");
+// 		pthread_mutex_lock(philosopher->left_fork);
+// 		print_status(philosopher, "has taken a fork");
+// 	}
+// }
 
 void	eat(t_philosopher	*philosopher)
 {
+	pthread_mutex_lock(philosopher->left_fork);
+	print_status(philosopher, "has taken a fork");
+	pthread_mutex_lock(philosopher->right_fork);
+	print_status(philosopher, "has taken a fork");
 	get_forks(philosopher);
+	if (check_stop(philosopher))
+			return (NULL);
 	print_status(philosopher, "is eating");
 	philosopher->last_meal = get_time();
 	usleep(philosopher->data->time_to_eat * 1000);
