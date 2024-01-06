@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 23:45:41 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/06 18:55:04 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:09:44 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	*routine(void *arg)
 	philosopher = (t_philosopher *) arg;
 	while (1)
 	{
+		if (check_stop(philosopher))
+			return (NULL);
 		if (philosopher->data->nb_philos == 1)
 		{
 			pthread_mutex_lock(philosopher->left_fork);
@@ -81,8 +83,6 @@ void	*routine(void *arg)
 		if (check_stop(philosopher))
 			return (NULL);
 		snooze(philosopher);
-		if (check_stop(philosopher))
-			return (NULL);
 		think(philosopher);
 	}
 	return (NULL);
