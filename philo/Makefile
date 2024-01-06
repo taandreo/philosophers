@@ -11,7 +11,7 @@ ifeq ($(UNAME), Darwin)
 	CFLAGS = -Wall -Wextra -Werror -arch x86_64
 endif
 
-SRCS = philosophers.c utils0.c utils1.c actions.c args.c init.c
+SRCS = philosophers.c utils0.c utils1.c actions.c init.c
 SRCS_MAIN  =  $(SRCS)
 # SRCS_BONUS = checker.c $(SRCS)
 

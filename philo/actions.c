@@ -6,19 +6,11 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 23:45:41 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/06 21:12:36 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/06 18:55:04 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-void	print_status(t_philosopher *philosopher, char *status)
-{
-	pthread_mutex_lock(&philosopher->data->print);
-	printf("%ld %d %s\n", get_timestamp(philosopher->data->start_time),
-		philosopher->id, status);
-	pthread_mutex_unlock(&philosopher->data->print);
-}
 
 void	get_forks(t_philosopher	*philosopher)
 {
@@ -58,6 +50,18 @@ void	think(t_philosopher	*philosopher)
 	print_status(philosopher, "is thinking");
 }
 
+t_bool	check_stop(t_philosopher	*philosopher)
+{
+	t_bool stop_flag;
+
+	stop_flag = false;
+	pthread_mutex_lock(&philosopher->data->stop_mutex);
+	if (philosopher->data->stop == true)
+		stop_flag = true;
+	pthread_mutex_unlock(&philosopher->data->stop_mutex);
+	return stop_flag;
+}
+
 void	*routine(void *arg)
 {
 	t_philosopher	*philosopher;
@@ -74,10 +78,10 @@ void	*routine(void *arg)
 			return(NULL);
 		}
 		eat(philosopher);
-		if (philosopher->data->stop)
+		if (check_stop(philosopher))
 			return (NULL);
 		snooze(philosopher);
-		if (philosopher->data->stop)
+		if (check_stop(philosopher))
 			return (NULL);
 		think(philosopher);
 	}

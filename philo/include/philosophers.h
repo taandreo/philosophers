@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 19:49:13 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/06 21:21:35 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/06 18:56:13 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_philosopher
 }	t_philosopher;
 
 // utils.c
+void			print_status(t_philosopher *philosopher, char *status);
 size_t			ft_strlen(const char *s);
 char			ft_is_number(const char *str);
 long			ft_strtol(const char *str);
@@ -67,12 +68,10 @@ long			get_time(void);
 long			get_timestamp(long start_time);
 // actions.c
 void			*routine(void *arg);
-void			print_status(t_philosopher *philosopher, char *status);
-// args_and_free.c
+// init.c
 char			*check_args(int argc, char **argv);
 void			read_args(int argc, char **argv, t_data *data);
-// init.c
-void			free_philosophers(t_philosopher **philosophers);
+void			free_philosophers(t_philosopher **philosophers, t_data *data);
 t_philosopher	**init_philosophers(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 21:37:25 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/06 21:23:27 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:04:42 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ t_bool	check_death(t_philosopher *philo)
 {
 	if (get_time() - philo->last_meal > philo->data->time_to_die)
 	{
+		pthread_mutex_lock(&philo->data->stop_mutex);
 		print_status(philo, "died");
+		pthread_mutex_unlock(&philo->data->stop_mutex);
 		philo->data->stop = true;
 		return (true);
 	}
@@ -68,7 +70,6 @@ void	start_dinner(t_philosopher **philos, t_data *data)
 	int	i;
 
 	i = 0;
-	pthread_mutex_init(&data->print, NULL);
 	data->start_time = get_time();
 	while (i < data->nb_philos)
 	{
@@ -100,5 +101,5 @@ int	main(int argc, char **argv)
 	start_dinner(philosophers, &data);
 	death_routine(philosophers);
 	wait_philosophers(philosophers);
-	free_philosophers(philosophers);
+	free_philosophers(philosophers, &data);
 }
