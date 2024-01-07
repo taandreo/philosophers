@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 19:49:13 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/06 18:56:13 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/07 17:45:49 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_data
 	long			start_time;
 	pthread_mutex_t	print;
 	pthread_mutex_t	stop_mutex;
+	pthread_t		death_thread;
 }	t_data;
 
 typedef struct s_philosopher
@@ -52,6 +53,7 @@ typedef struct s_philosopher
 	int				meals;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	meal_lock;
 }	t_philosopher;
 
 // utils.c

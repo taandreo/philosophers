@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 21:37:25 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/06 18:47:07 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/07 17:51:02 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_philosopher	*init_philosopher(t_data *data, int id)
 	philo->data = data;
 	philo->left_fork = ft_calloc(1, sizeof(pthread_mutex_t));
 	pthread_mutex_init(philo->left_fork, NULL);
+	pthread_mutex_init(&philo->meal_lock, NULL);
 	return (philo);
 }
 
@@ -91,6 +92,7 @@ void	free_philosophers(t_philosopher **philosophers, t_data *data)
 	while (philosophers[i])
 	{
 		pthread_mutex_destroy(philosophers[i]->left_fork);
+		pthread_mutex_destroy(&philosophers[i]->meal_lock);
 		free(philosophers[i]->left_fork);
 		free(philosophers[i]);
 		i++;
