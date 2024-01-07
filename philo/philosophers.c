@@ -6,7 +6,7 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 21:37:25 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/07 18:26:51 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/07 15:42:07 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,6 @@ void	wait_philosophers(t_philosopher **philosophers)
 	}
 }
 
-t_bool	check_death(t_philosopher *philo)
-{
-	if (get_time() - philo->last_meal > philo->data->time_to_die)
-	{
-		pthread_mutex_lock(&philo->data->stop_mutex);
-		philo->data->stop = true;
-		pthread_mutex_unlock(&philo->data->stop_mutex);
-		print_status(philo, "died");
-		return (true);
-	}
-	return (false);
-}
-
 void	*death_routine(void *arg)
 {
 	int				i;
@@ -49,21 +36,18 @@ void	*death_routine(void *arg)
 	data = philosophers[0]->data;
 	while (1)
 	{
-		i = 0;
+		i = -1;
 		all_philos_are_full = true;
-		while (i < data->nb_philos)
+		while (++i < data->nb_philos)
 		{
 			if (check_death(philosophers[i]))
 				return (NULL);
 			if (philosophers[i]->meals < data->total_meals)
 				all_philos_are_full = false;
-			i++;
 		}
 		if (data->total_meals != -1 && all_philos_are_full)
 		{
-			pthread_mutex_lock(&data->stop_mutex);
-			data->stop = true;
-			pthread_mutex_unlock(&data->stop_mutex);
+			set_stop(data);
 			return (NULL);
 		}
 		usleep(4777);

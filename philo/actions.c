@@ -6,30 +6,11 @@
 /*   By: tairribe <tairribe@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 23:45:41 by tairribe          #+#    #+#             */
-/*   Updated: 2024/01/07 18:03:17 by tairribe         ###   ########.fr       */
+/*   Updated: 2024/01/07 15:46:31 by tairribe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-t_bool	check_stop(t_philosopher *philosopher)
-{
-	t_bool stop_flag;
-
-	stop_flag = false;
-	pthread_mutex_lock(&philosopher->data->stop_mutex);
-	if (philosopher->data->stop)
-		stop_flag = true;
-	pthread_mutex_unlock(&philosopher->data->stop_mutex);
-	return stop_flag;
-}
-
-void	set_last_meal(t_philosopher *philosopher)
-{
-	pthread_mutex_lock(&philosopher->meal_lock);
-	philosopher->last_meal = get_time();
-	pthread_mutex_unlock(&philosopher->meal_lock);
-}
 
 void	eat(t_philosopher *philosopher)
 {
@@ -50,7 +31,7 @@ void	eat(t_philosopher *philosopher)
 		return ;
 	}
 	print_status(philosopher, "has taken a fork");
-	print_status(philosopher, "has taken a fork");		
+	print_status(philosopher, "has taken a fork");
 	print_status(philosopher, "is eating");
 	set_last_meal(philosopher);
 	usleep(philosopher->data->time_to_eat * 1000);
@@ -86,7 +67,7 @@ void	*routine(void *arg)
 			print_status(philosopher, "has taken a fork");
 			usleep(philosopher->data->time_to_die * 1000 + 1000);
 			pthread_mutex_unlock(philosopher->left_fork);
-			return(NULL);
+			return (NULL);
 		}
 		eat(philosopher);
 		if (check_stop(philosopher))
