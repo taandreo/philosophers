@@ -2,7 +2,6 @@
 
 CC = cc
 NAME = philo
-# BONUS = checker
 CFLAGS = -Wall -Wextra -Werror
 UNAME := $(shell uname)
 LIBS := -lpthread
@@ -13,10 +12,8 @@ endif
 
 SRCS = philosophers.c utils0.c utils1.c actions.c init.c actions_utils.c
 SRCS_MAIN  =  $(SRCS)
-# SRCS_BONUS = checker.c $(SRCS)
 
 OBJS_MAIN  = $(SRCS_MAIN:.c=.o)
-# OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all: $(NAME)
 
@@ -25,9 +22,6 @@ all: $(NAME)
 
 $(NAME): $(OBJS_MAIN)
 	$(CC) $(CFLAGS) $(OBJS_MAIN) -o $(NAME) $(LIBS)
-
-# bonus: $(OBJS_BONUS) | libft
-# 	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(BONUS) $(LIBS) -L $(LIBFT_DIR)
 
 clean:
 	rm -f $(OBJS_MAIN) $(OBJS_BONUS)
